@@ -1,0 +1,121 @@
+<html>
+
+<head>
+
+<style>
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+*{
+	font-family: 'Roboto', sans-serif;
+}
+</style>
+
+<title>json</title>
+
+<meta charset = "utf-8">
+
+</head>
+
+<body>
+	<h2>What is JSON?</h2>
+	<ul>
+		<li>JavaScript Object Notation.</li>
+		<li>Lightweight data-interchange format.</li>
+		<li>Based on a subset of JavaScript.</li>
+		<li>Easy to read and write.</li>
+		<li>Often used with AJAX.</li>
+		<li>Can be used with most modern languages.</li>
+	</ul>
+
+	<h2>Data Types</h2>
+
+	<ul>
+		<li>Numbers(ints/floats)</li>
+		<li>String(use "")</li>
+		<li>Boolean(true/false)</li>
+		<li>Array</li>
+		<li>Object(unordered collection of key: value pairs)</li>
+		<li>Null (Empty value)</li>
+	</ul>
+
+	<h2>Syntax Rules</h2>
+
+	<ul>
+		<li>".json"</li>
+		<li>MIME type is "Application/json"</li>
+	</ul>
+
+	<ul id = "list">
+
+	</ul>
+
+	<div id = "demo"></div>
+
+	<h3>For server use: $ npm install -g live-server</h3>
+
+<script>
+	let person = {
+		name: "Jesse",
+		age: 18,
+		email: name => `${name}@abc.com`,
+		address: {
+			street: "5 main street",
+			city: "boston"
+		},
+		friends: ["jessa", "nora"]
+	}
+
+	console.log(person.name, "is", person.age)
+	console.log(person.email("jesse"))
+
+	json_person = JSON.stringify(person, (k,v) => typeof v === "function" ? "" + v : v)
+	console.log(json_person.name, "is", json_person.age)
+	console.log(json_person.address)
+	console.log(json_person.friends)
+	console.log(json_person.email)
+
+	ajax_person = JSON.parse(json_person)
+	console.log(ajax_person.name, "is", ajax_person.age)
+	console.log(json_person.address)
+	ajax_person.friends.forEach( friend => console.log(friend) )
+	console.log(ajax_person.email)
+
+	console.log(`Hence functions are not accepted in json.`)
+
+	let people = [
+		{
+			name: "Max",
+			age: 27
+		},
+		{
+			name: "Sarah",
+			age: 22
+		},
+		{
+			name: "david",
+			age: 57
+		}
+	]
+
+	console.log(people[1].age)
+
+	list = document.querySelector(`#list`)
+
+	people.forEach( obj => { 
+		console.log( obj.name, "is", obj.age )
+		list.innerHTML += `<li>${obj.name}</li>`
+	} )
+
+	const xhttp = new XMLHttpRequest()
+
+	xhttp.onreadystatechange = () => {
+		document.querySelector(`#demo`).innerHTML = xhttp.responseText
+	}
+
+	xhttp.open("GET", "friends.json", true)
+	xhttp.send()
+
+</script>
+
+</body>
+
+</html>
